@@ -191,7 +191,6 @@
             ];
             localStorage.setItem('sfpdPosts', JSON.stringify(initialPosts));
         }
-
         if (!localStorage.getItem('sfpdMessages')) {
             const initialMessages = {
                 conversations: [
@@ -247,7 +246,6 @@
             };
             localStorage.setItem('sfpdMessages', JSON.stringify(initialMessages));
         }
-
         if (!localStorage.getItem('sfpdUsers')) {
             const initialUsers = [
                 { id: 0, name: "Officer Johnson", image: "https://randomuser.me/api/portraits/men/32.jpg", rank: "Police Officer II", badge: "SF-4276" },
@@ -259,10 +257,8 @@
             ];
             localStorage.setItem('sfpdUsers', JSON.stringify(initialUsers));
         }
-
         // Current user ID (Officer Johnson)
         const currentUserId = 0;
-
         // DOM Elements
         const newsfeedBtn = document.getElementById('newsfeedBtn');
         const messagesBtn = document.getElementById('messagesBtn');
@@ -280,25 +276,21 @@
         const chatUserImage = document.getElementById('chatUserImage');
         const chatUserName = document.getElementById('chatUserName');
         const chatUserStatus = document.getElementById('chatUserStatus');
-
         // Navigation
         newsfeedBtn.addEventListener('click', () => {
             newsfeedSection.classList.remove('hidden');
             messagesSection.classList.add('hidden');
             loadPosts();
         });
-
         messagesBtn.addEventListener('click', () => {
             newsfeedSection.classList.add('hidden');
             messagesSection.classList.remove('hidden');
             loadConversations();
         });
-
         // Load posts
         function loadPosts() {
             const posts = JSON.parse(localStorage.getItem('sfpdPosts'));
             postsContainer.innerHTML = '';
-
             posts.forEach(post => {
                 const postElement = document.createElement('div');
                 postElement.className = 'bg-white rounded-lg shadow-md p-4 mb-6';
@@ -311,7 +303,6 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-
                 // Check if current user has reacted
                 let userReaction = null;
                 for (const [emoji, userIds] of Object.entries(post.reactions)) {
@@ -320,7 +311,6 @@
                         break;
                     }
                 }
-
                 // Create reaction buttons HTML
                 let reactionsHtml = '';
                 for (const [emoji, userIds] of Object.entries(post.reactions)) {
@@ -332,7 +322,6 @@
                         `;
                     }
                 }
-
                 postElement.innerHTML = `
                     <div class="flex items-start space-x-3 mb-4">
                         <img src="${post.userImage}" alt="${post.userName}" class="w-10 h-10 rounded-full">
@@ -400,7 +389,6 @@
                 `;
                 postsContainer.appendChild(postElement);
             });
-
             // Add event listeners for reaction buttons
             document.querySelectorAll('.reaction-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -411,7 +399,6 @@
                     }
                 });
             });
-
             // Add event listeners for comment buttons
             document.querySelectorAll('.comment-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -421,7 +408,6 @@
                 });
             });
         }
-
         // React to post
         function reactToPost(postId, emoji) {
             const posts = JSON.parse(localStorage.getItem('sfpdPosts'));
@@ -451,7 +437,6 @@
                 loadPosts();
             }
         }
-
         // Create new post
         postSubmit.addEventListener('click', () => {
             const content = postContent.value.trim();
@@ -478,13 +463,11 @@
                 loadPosts();
             }
         });
-
         // Load conversations
         function loadConversations() {
             const messagesData = JSON.parse(localStorage.getItem('sfpdMessages'));
             const users = JSON.parse(localStorage.getItem('sfpdUsers'));
             contactsList.innerHTML = '';
-
             messagesData.conversations.forEach(conversation => {
                 const user = users.find(u => u.id === conversation.userId);
                 const conversationDate = new Date(conversation.timestamp);
@@ -494,7 +477,6 @@
                     hour: '2-digit',
                     minute: '2-digit'
                 });
-
                 const conversationElement = document.createElement('div');
                 conversationElement.className = `flex items-center p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer ${conversation.unread ? 'bg-blue-50' : ''}`;
                 conversationElement.dataset.conversationId = conversation.id;
@@ -518,7 +500,6 @@
                 contactsList.appendChild(conversationElement);
             });
         }
-
         // Load messages for a conversation
         function loadMessages(conversationId) {
             const messagesData = JSON.parse(localStorage.getItem('sfpdMessages'));
@@ -568,7 +549,6 @@
                 messageInput.dataset.conversationId = conversationId;
             }
         }
-
         // Send message
         sendMessageBtn.addEventListener('click', sendMessage);
         messageInput.addEventListener('keypress', (e) => {
@@ -576,7 +556,6 @@
                 sendMessage();
             }
         });
-
         function sendMessage() {
             const content = messageInput.value.trim();
             const conversationId = messageInput.dataset.conversationId;
@@ -603,9 +582,8 @@
                 }
             }
         }
-
         // Initial load
         loadPosts();
     </script>
-</body>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=MrDuding/test" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
